@@ -649,20 +649,23 @@ class OperatorStateBackendTest {
             assertThat(it).isExhausted();
 
             Iterator<Map.Entry<Serializable, Serializable>> bIt = broadcastState1.iterator();
-            assertThat(bIt).hasNext();
-            Map.Entry<Serializable, Serializable> entry = bIt.next();
-            assertThat(entry.getKey()).isEqualTo(1);
-            assertThat(entry.getValue()).isEqualTo(2);
-
-            assertThat(bIt).hasNext();
-            entry = bIt.next();
-            assertThat(entry.getKey()).isEqualTo(2);
-            assertThat(entry.getValue()).isEqualTo(5);
-            assertThat(bIt).isExhausted();
+            int count = 0;
+            while (bIt.hasNext()) {
+                Map.Entry<Serializable, Serializable> entry = bIt.next();
+                if (entry.getKey().equals(1)) {
+                    assertThat(entry.getValue()).isEqualTo(2);
+                } else if (entry.getKey().equals(2)) {
+                    assertThat(entry.getValue()).isEqualTo(5);
+                } else {
+                    throw new Exception("Unexpected key in broadcast state: " + entry.getKey());
+                }
+                count++;
+            }
+            assertThat(count).isEqualTo(2);
 
             bIt = broadcastState2.iterator();
             assertThat(bIt).hasNext();
-            entry = bIt.next();
+            Map.Entry<Serializable, Serializable> entry = bIt.next();
             assertThat(entry.getKey()).isEqualTo(2);
             assertThat(entry.getValue()).isEqualTo(5);
             assertThat(bIt).isExhausted();
