@@ -649,9 +649,10 @@ class OperatorStateBackendTest {
             assertThat(it).isExhausted();
 
             Iterator<Map.Entry<Serializable, Serializable>> bIt = broadcastState1.iterator();
+            Map.Entry<Serializable, Serializable> entry;
             int count = 0;
             while (bIt.hasNext()) {
-                Map.Entry<Serializable, Serializable> entry = bIt.next();
+                entry = bIt.next();
                 if (entry.getKey().equals(1)) {
                     assertThat(entry.getValue()).isEqualTo(2);
                 } else if (entry.getKey().equals(2)) {
@@ -665,7 +666,7 @@ class OperatorStateBackendTest {
 
             bIt = broadcastState2.iterator();
             assertThat(bIt).hasNext();
-            Map.Entry<Serializable, Serializable> entry = bIt.next();
+            entry = bIt.next();
             assertThat(entry.getKey()).isEqualTo(2);
             assertThat(entry.getValue()).isEqualTo(5);
             assertThat(bIt).isExhausted();
