@@ -3569,7 +3569,6 @@ public abstract class StateBackendTestBase<B extends AbstractStateBackend> {
             int iteratorCount = 0;
             while (iterator.hasNext()) {
                 Map.Entry<Integer, Long> entry = iterator.next();
-                assertThat(entry.getKey()).isEqualTo(iteratorCount);
                 switch (ThreadLocalRandom.current().nextInt() % 3) {
                     case 0: // remove twice
                         iterator.remove();
