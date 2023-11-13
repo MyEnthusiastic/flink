@@ -71,7 +71,7 @@ public class OperatorState implements CompositeStateHandle {
 
         this.operatorID = operatorID;
 
-        this.operatorSubtaskStates = CollectionUtil.newHashMapWithExpectedSize(parallelism);
+        this.operatorSubtaskStates = CollectionUtil.newLinkedHashMapWithExpectedSize(parallelism);
 
         this.parallelism = parallelism;
         this.maxParallelism = maxParallelism;
@@ -220,10 +220,20 @@ public class OperatorState implements CompositeStateHandle {
         if (obj instanceof OperatorState) {
             OperatorState other = (OperatorState) obj;
 
-            return operatorID.equals(other.operatorID)
-                    && parallelism == other.parallelism
-                    && Objects.equals(coordinatorState, other.coordinatorState)
-                    && operatorSubtaskStates.equals(other.operatorSubtaskStates);
+            boolean same1 = operatorID.equals(other.operatorID);
+            boolean same2 = parallelism == other.parallelism;
+            boolean same3;
+
+            if (coordinatorState == null && other.coordinatorState == null){
+                same3 = true;
+            }else if (coordinatorState == null || other.coordinatorState == null){
+                same3 = false;
+            }else{
+                same3 = coordinatorState.getStateSize() == other.coordinatorState.getStateSize();
+            }
+            boolean same4 = operatorSubtaskStates.size() == other.operatorSubtaskStates.size();
+
+            return same1 && same2 && same3 && same4;
         } else {
             return false;
         }
