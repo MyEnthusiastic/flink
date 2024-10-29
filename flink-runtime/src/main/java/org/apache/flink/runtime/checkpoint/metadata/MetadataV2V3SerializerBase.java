@@ -72,6 +72,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.LinkedHashMap;
 import java.util.UUID;
 
 import static org.apache.flink.runtime.state.IncrementalRemoteKeyedStateHandle.UNKNOWN_CHECKPOINTED_SIZE;
@@ -615,8 +616,8 @@ public abstract class MetadataV2V3SerializerBase {
             return null;
         } else if (PARTITIONABLE_OPERATOR_STATE_HANDLE == type) {
             int mapSize = dis.readInt();
-            Map<String, OperatorStateHandle.StateMetaInfo> offsetsMap =
-                    CollectionUtil.newHashMapWithExpectedSize(mapSize);
+            LinkedHashMap<String, OperatorStateHandle.StateMetaInfo> offsetsMap =
+                    CollectionUtil.newLinkedHashMapWithExpectedSize(mapSize);
             for (int i = 0; i < mapSize; ++i) {
                 String key = dis.readUTF();
 
