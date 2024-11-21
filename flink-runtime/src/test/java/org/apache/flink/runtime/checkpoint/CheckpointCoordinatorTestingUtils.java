@@ -77,6 +77,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -103,7 +104,7 @@ public class CheckpointCoordinatorTestingUtils {
             boolean rawState)
             throws IOException {
 
-        Map<String, List<? extends Serializable>> statesListsMap = new HashMap<>(namedStates);
+        Map<String, List<? extends Serializable>> statesListsMap = new LinkedHashMap<>(namedStates);
 
         for (int i = 0; i < namedStates; ++i) {
             List<Integer> testStatesLists = new ArrayList<>(partitionsPerState);
@@ -131,7 +132,7 @@ public class CheckpointCoordinatorTestingUtils {
             boolean rawState)
             throws IOException {
 
-        Map<String, List<? extends Serializable>> statesListsMap = new HashMap<>(namedStates);
+        Map<String, List<? extends Serializable>> statesListsMap = new LinkedHashMap<>(namedStates);
 
         for (int i = 0; i < namedStates; ++i) {
             List<Integer> testStatesLists = new ArrayList<>(partitionsPerState);
